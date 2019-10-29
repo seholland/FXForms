@@ -37,7 +37,6 @@
 #pragma clang diagnostic ignored "-Wobjc-missing-property-synthesis"
 #pragma clang diagnostic ignored "-Wdirect-ivar-access"
 #pragma clang diagnostic ignored "-Warc-repeated-use-of-weak"
-#pragma clang diagnostic ignored "-Wreceiver-is-weak"
 #pragma clang diagnostic ignored "-Wconversion"
 #pragma clang diagnostic ignored "-Wgnu"
 
@@ -2501,10 +2500,15 @@ static void FXFormPreprocessFieldDictionary(NSMutableDictionary *dictionary)
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if (@available(iOS 13.0, *)) {
+        self.overrideUserInterfaceStyle = UIUserInterfaceStyleLight;
+    } else {
+        // Fallback on earlier versions
+    }
     
     if (!self.tableView)
     {
-        self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].applicationFrame
+        self.tableView = [[UITableView alloc] initWithFrame:[UIScreen mainScreen].bounds
                                                       style:UITableViewStyleGrouped];
     }
     if (!self.tableView.superview)
